@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NeuroLingo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7728368bbc9d23c1b78bba186c64a55a443455e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("NeuroLingo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NeuroLingo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
