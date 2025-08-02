@@ -1,9 +1,42 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Auth\Controllers\" />
+    <Folder Include="Features\Auth\Validations\" />
+    <Folder Include="Features\Auth\ViewModels\" />
+    <Folder Include="Features\Auth\Services\" />
+    <Folder Include="Features\Auth\Views\" />
+    <Folder Include="Features\Auth\Dtos\" />
+    <Folder Include="Features\Flashcards\Controllers\" />
+    <Folder Include="Features\Flashcards\Dtos\" />
+    <Folder Include="Features\Flashcards\Validations\" />
+    <Folder Include="Features\Flashcards\Services\" />
+    <Folder Include="Features\Flashcards\Views\" />
+    <Folder Include="Features\Flashcards\ViewModels\" />
+    <Folder Include="Features\Quizzes\Dtos\" />
+    <Folder Include="Features\Quizzes\Controllers\" />
+    <Folder Include="Features\Quizzes\Validations\" />
+    <Folder Include="Features\Quizzes\Views\" />
+    <Folder Include="Features\Quizzes\ViewModels\" />
+    <Folder Include="Features\Quizzes\Services\" />
+    <Folder Include="Persistence\Configurations\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.18" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.7" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+  </ItemGroup>
 
 </Project>
