@@ -9,13 +9,13 @@
 <form asp-action="Register" method="post">
     <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" type="email"/>
+        <input asp-for="Email" class="form-control" type="email" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="form-control" type="password"/>
+        <input asp-for="Password" class="form-control" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
@@ -28,7 +28,7 @@
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
 
-<partial name="ValidationErrors" /> 
+<partial name="ValidationErrors" />
 
 <partial name="NotificationSuccess" />
 
