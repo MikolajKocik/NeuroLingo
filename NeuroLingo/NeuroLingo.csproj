@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Views\" />
     <Folder Include="Features\Flashcards\Controllers\" />
     <Folder Include="Features\Flashcards\Dtos\" />
     <Folder Include="Features\Flashcards\Validations\" />

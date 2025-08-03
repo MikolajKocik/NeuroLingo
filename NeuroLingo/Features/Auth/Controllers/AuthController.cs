@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NeuroLingo.Exceptions;
 using NeuroLingo.Features.Auth.Dtos;
-using NeuroLingo.Features.Auth.Models;
 using NeuroLingo.Features.Auth.Services;
 using NeuroLingo.Features.Auth.ViewModels;
 using NeuroLingo.Utils.ValidationAttribute;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace NeuroLingo.Features.Auth.Controllers
 {
@@ -45,6 +43,8 @@ namespace NeuroLingo.Features.Auth.Controllers
                 };
 
                 await _authService.RegisterUserAsync(dto);
+
+                TempData["Success"] = "Registered successfull";
                 return RedirectToAction("Index", "Home");
             }
             catch (ConflictException)
@@ -84,6 +84,8 @@ namespace NeuroLingo.Features.Auth.Controllers
                 };
 
                 await _authService.LoginUserAsync(dto);
+
+                TempData["Success"] = "Logged successfull";
                 return RedirectToAction("Index", "Home");
             }
             catch (UnauthorizedAccessException)
