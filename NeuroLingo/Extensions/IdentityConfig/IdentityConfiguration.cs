@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using NeuroLingo.Features.Auth.Models;
 using NeuroLingo.Persistence.Data;
 
 namespace NeuroLingo.Extensions.IdentityConfig;
@@ -7,7 +8,7 @@ public static class IdentityConfiguration
 {
     public static void SetupIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<IdentityUser, IdentityRole>(options =>
+        services.AddIdentity<User, IdentityRole>(options =>
         {
             // password settings
             options.Password.RequireNonAlphanumeric = true;
