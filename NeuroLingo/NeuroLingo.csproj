@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Controllers\" />
-    <Folder Include="Features\Auth\ViewModels\" />
     <Folder Include="Features\Auth\Views\" />
     <Folder Include="Features\Flashcards\Controllers\" />
     <Folder Include="Features\Flashcards\Dtos\" />
@@ -23,7 +21,6 @@
     <Folder Include="Features\Quizzes\ViewModels\" />
     <Folder Include="Features\Quizzes\Services\" />
     <Folder Include="Persistence\Configurations\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
