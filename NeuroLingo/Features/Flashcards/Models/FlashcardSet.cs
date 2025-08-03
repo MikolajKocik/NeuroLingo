@@ -10,7 +10,7 @@ public sealed class FlashcardSet
     public string Description { get; private set; }
 
     public string UserId { get; private set; }
-    public User User { get; private set; } = new();
+    public User User { get; private set; } 
 
     private readonly List<Flashcard> _flashcards = new();
     public IReadOnlyCollection<Flashcard> Flashcards 
