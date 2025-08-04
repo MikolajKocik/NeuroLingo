@@ -1,31 +1,58 @@
-﻿@model NeuroLingo.Features.Auth.ViewModels.LoginUserViewModel
+﻿@using NeuroLingo.Features.Auth.ViewModels
+@model LoginUserViewModel
 
 @{
+    Layout = "/Core/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Login";
 }
 
-<h2>Login</h2>
-
-<form asp-action="Login" method="post">
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" type="email"/>
-        <span asp-validation-for="Email" class="text-danger"></span>
+<div class="login-container">
+    <div class="login-image">
+        <img src="@Url.Content("~/images/words.PNG")" alt="flashcard image with apple" />
     </div>
+    <div class="login-form">
+        <h2>Login</h2>
 
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="form-control" type="password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input id="email" asp-for="Email" class="form-control" type="email" placeholder="Email"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input id="password" asp-for="Password" class="form-control" type="password" placeholder="Password"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+                <div class="login-hint">
+                    <h3>Password should contain:</h3>
+                    <ul class="login-password-rules">
+                        <li id="rule-length">Min. 8 characters</li>
+                        <li id="rule-uppercase">Uppercase letter</li>
+                        <li id="rule-digit">Number</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="login-navigation">
+            <a id="go-to-register" href="@Url.Action("Register", "Auth")">You dont have account yet? Click here</a>
+            </div>
+        </form>
     </div>
-
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
-
-<partial name="ValidationErrors" />
+</div>
 
 <partial name="NotificationSuccess" />
+<partial name="ValidationErrors" />
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/login.js"></script>
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/login.css" />
+}
+

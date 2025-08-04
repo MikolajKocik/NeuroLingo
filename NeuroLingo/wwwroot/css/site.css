@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.bg-custom {
+    background: linear-gradient(
+    135deg, 
+    #2f4f4f 0%, 
+    #4a7c59 100% 
+    );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

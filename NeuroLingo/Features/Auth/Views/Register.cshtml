@@ -1,6 +1,10 @@
 ﻿@model NeuroLingo.Features.Auth.ViewModels.RegisterUserViewModel
 
 @{
+    Layout = "/Core/Views/Shared/_Layout.cshtml";
+}
+
+@{
     ViewData["Title"] = "Register";
 }
 
@@ -29,7 +33,6 @@
 </form>
 
 <partial name="ValidationErrors" />
-
 <partial name="NotificationSuccess" />
 
 @section Scripts {
