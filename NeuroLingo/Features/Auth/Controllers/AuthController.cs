@@ -3,6 +3,7 @@ using NeuroLingo.Exceptions;
 using NeuroLingo.Features.Auth.Dtos;
 using NeuroLingo.Features.Auth.Services;
 using NeuroLingo.Features.Auth.ViewModels;
+using NeuroLingo.Utils.JsonHelper;
 using NeuroLingo.Utils.ValidationAttribute;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,12 +24,6 @@ public class AuthController : Controller
     {
         _authService = authService;
     }
-
-    [HttpGet]
-    public IActionResult Register()
-    {
-        return View();
-    }
    
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -45,24 +40,35 @@ public class AuthController : Controller
             await _authService.RegisterUserAsync(dto);
 
             TempData["Success"] = "Registered successfull";
-            return RedirectToAction("Index", "Home");
+            return Json(new JsonResponse(
+                IsSuccess: true,
+                Message: "Registration successful!"
+            ));
         }
         catch (ConflictException)
         {
             ModelState.AddModelError(nameof(vm.Email), "This email is already in used");
-            return View(vm);
+            return Json(new JsonResponse
+            (
+                IsSuccess: false,
+                Errors: ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList()
+            ));
         }
         catch (ValidationException ex)
         {
             ModelState.AddModelError(string.Empty, ex.Message);
-            return View(vm);
+            return Json(new JsonResponse
+            (
+                IsSuccess: false,
+                Errors: ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList()
+            ));
         }
-    }
-
-    [HttpGet]
-    public IActionResult Login()
-    {
-        return View();
     }
 
     [HttpPost]
@@ -86,17 +92,34 @@ public class AuthController : Controller
             await _authService.LoginUserAsync(dto);
 
             TempData["Success"] = "Logged successfull";
-            return RedirectToAction("Index", "Home");
+            return Json(new JsonResponse(
+               IsSuccess: true,
+               Message: "Login successful!"
+            ));
         }
         catch (UnauthorizedAccessException)
         {
             ModelState.AddModelError(string.Empty, "Invalid email or password");
-            return View(vm);
+            return Json(new JsonResponse
+            (
+                IsSuccess: false,
+                Errors: ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList()
+            ));
         }
         catch (NotFoundException)
         {
             ModelState.AddModelError(nameof(vm.Email), $"User with: {vm.Email} not found");
-            return View(vm);
+            return Json(new JsonResponse
+            (
+                IsSuccess: false,
+                Errors: ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList()
+            ));
         }
     }
 }

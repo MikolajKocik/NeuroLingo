@@ -28,14 +28,10 @@ public static class ViewsOptions
             options.ViewLocationFormats.Add("Core/Views/Home/{0}.cshtml");
             options.ViewLocationFormats.Add("Core/Views/Shared/{0}.cshtml");
             options.ViewLocationFormats.Add("Core/Views/{0}.cshtml");
-
-            // features
-
-            //auth
-            options.ViewLocationFormats.Add("Features/Auth/Views/{0}.cshtml");
+            options.ViewLocationFormats.Add("{0}.cshtml");
 
             // partials
-            options.ViewLocationFormats.Add("Features/Auth/Views/PartialViews/{0}.cshtml");
+            options.ViewLocationFormats.Add("~/Pages/Shared/{0}.cshtml");
         });
     }
 }

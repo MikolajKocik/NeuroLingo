@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Persistence\Configurations\**" />
+    <Content Remove="Persistence\Configurations\**" />
+    <EmbeddedResource Remove="Persistence\Configurations\**" />
+    <None Remove="Persistence\Configurations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Features\Flashcards\Controllers\" />
     <Folder Include="Features\Flashcards\Dtos\" />
     <Folder Include="Features\Flashcards\Validations\" />
@@ -19,12 +26,10 @@
     <Folder Include="Features\Quizzes\Views\" />
     <Folder Include="Features\Quizzes\ViewModels\" />
     <Folder Include="Features\Quizzes\Services\" />
-    <Folder Include="Persistence\Configurations\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.18" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.7" />

@@ -1,18 +1,42 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
-    const passwordInput = document.getElementById("password");
-    if (!passwordInput) return;
 
-    passwordInput.addEventListener("input", (e) => {
-        const val = e.target.value;
-        const setState = (id, isValid) => {
-            const li = document.getElementById(id);
-            li.classList.toggle("valid", isValid);
-            li.classList.toggle("invalid", !isValid);
-            li.style.color = isValid ? "green" : "red";
-        };
+    // AJAX
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
 
-        setState("rule-length", val.length >= 8);
-        setState("rule-uppercase", /[A-Z]/.test(val));
-        setState("rule-digit", /\d/.test(val));
-    });
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // get data from form
+            const formData = new FormData(loginForm);
+            const data = new URLSearchParams(formData).toString();
+
+            // send AJAX
+
+            fetch('/Auth/Login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]').value
+                },
+                body: data
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.IsSuccess) {
+                        alert(result.Message);
+                        window.location.href = '/Home';
+                    } else {
+                        const errors = result.Errors || [];
+                        errors.forEach(error => {
+                            alert(error);
+                        });
+                    }
+                })
+                .catch(error => {
+                    alert('Error occured during login action');
+                    console.error('Error', error);
+                });
+        });
+    }
 });
