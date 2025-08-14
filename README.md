@@ -1,0 +1,1 @@
+Obecnie wstrzymuję rozwój tego projektu. Zdecydowałem/am się skupić na nowym pomyśle, który moim zdaniem ma większy potencjał. Dziękuję za zainteresowanie i zapraszam do śledzenia moich innych projektów!
