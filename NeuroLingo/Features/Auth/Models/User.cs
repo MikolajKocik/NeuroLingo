@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NeuroLingo.Features.Flashcards.Models;
 using NeuroLingo.Features.Quizzes.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace NeuroLingo.Features.Auth.Models;
 
-public sealed class User : IdentityUser
+public sealed partial class User : IdentityUser, IValidatableObject
 {
     public DateTime RegisteredAt { get; private set; }
 
@@ -16,8 +17,11 @@ public sealed class User : IdentityUser
     public IReadOnlyCollection<FlashcardSet> FlashcardSets 
         => _flashcardSets.AsReadOnly();
 
-    public User()
+    public User(
+        string email
+        )
     {
+        Email = email;
         RegisteredAt = DateTime.UtcNow;
     }
 }

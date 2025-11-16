@@ -13,13 +13,19 @@ public sealed class EmailSender : IEmailSender
         _configuration = configuration;
     }
 
-    public Task SendEmailAsync(string email, string subject, string htmlMessage)
+    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        var apiKey = _configuration["SendGrid:ApiKey"];
+        string? apiKey = _configuration["SENDGRID_API_KEY"];
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("mikolajkocik02@gmail.com", "NeuroLingo");
         var to = new EmailAddress(email);
-        var msg = MailHelper.CreateSingleEmail(from, to, subject, htmlMessage, "");
-        return client.SendEmailAsync(msg);
+        SendGridMessage msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent: null, htmlMessage);
+        Response response = await client.SendEmailAsync(msg);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var body = await response.Body.ReadAsStringAsync();
+            throw new InvalidOperationException($"SendGrid error: {response.StatusCode}");
+        }
     }
 }
