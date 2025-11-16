@@ -54,3 +54,52 @@
     border: solid white;
     border-radius: 1rem; 
 }
+
+/* blog section */
+
+.blog-preview {
+    width: 90%;
+    padding-top: 3rem;
+    max-width: 1100px;
+    margin: 4rem auto; 
+}
+.blog-preview h2, h3 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    color: white; 
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.blog-card {
+    margin-top: 2.5rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    overflow: hidden; 
+    background-color: lightblue;
+}
+
+.blog-card img {
+    width: 100%;
+    height: 300px; 
+    object-fit: cover; 
+}
+
+.blog-card h3 {
+    font-size: 1.2rem;
+    padding: 1rem 1rem 0.5rem 1rem;
+}
+
+.blog-card a {
+    display: block;
+    padding: 0 1rem 1.2rem 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(35, 117, 180);
+}

@@ -202,6 +202,10 @@ body {
     background-color: rgb(55, 210, 240);
 }
 
+#monthly-newsletter input {
+    border-radius: 8px;
+}
+
 #blog-container a {
     color: grey;
 }
