@@ -8,22 +8,11 @@ namespace NeuroLingo.Features.Auth.Models
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext _)
         {
-            foreach (var e in Required("Field is required",
-                (Email, nameof(Email)),
-                (UserName, nameof(UserName)),
-                (Password, nameof(Password))
+            foreach (var e in Required("Email is required",
+                (Email, nameof(Email))
             ))
             {
                 yield return e;
-            }
-
-            var pattern = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$");
-
-            if(!Email!.Equals(pattern))
-            {
-                yield return new ValidationResult(
-                    "Email must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.",
-                    new[] { nameof(Email) });
             }
         }
 

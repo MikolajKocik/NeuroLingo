@@ -1,22 +1,12 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
+using NeuroLingo.Extensions.ConfigureServices;
 using NeuroLingo.Extensions.DatabaseConfig;
 using NeuroLingo.Extensions.IdentityConfig;
-using NeuroLingo.Persistence.Data;
-using NeuroLingo.Services.EmailNotifications;
+using NeuroLingo.Extensions.SetupCustomViews;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews()
-    .AddRazorOptions(options =>
-    {
-        options.ViewLocationFormats.Clear();
-        options.ViewLocationFormats.Add("Core/Views/Home/{0}.cshtml");
-        options.ViewLocationFormats.Add("Core/Views/Shared/{0}.cshtml");
-        options.ViewLocationFormats.Add("Core/Views/{0}.cshtml");
-    });
+// Custom Views
+ViewsOptions.AddCustomConfiguration(builder);
 
 // Sqllite database context
 DbContextConfiguration.SetupDatabase(builder);
@@ -24,8 +14,8 @@ DbContextConfiguration.SetupDatabase(builder);
 // Identity service
 IdentityConfiguration.SetupIdentity(builder.Services);
 
-// SendGrid email service
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+// Add services
+SetupService.Configure(builder);
 
 var app = builder.Build();
 
