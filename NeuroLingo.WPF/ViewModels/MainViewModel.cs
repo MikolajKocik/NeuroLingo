@@ -37,10 +37,6 @@ public class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
-        var loginViewModel = new LoginViewModel();
-        loginViewModel.LoginSuccessful += OnLoginSuccessful;
-        loginViewModel.NavigateToRegister += OnNavigateToRegister;
-
         _currentViewModel = new HomeViewModel();
 
         ShowLoginCommand = new RelayCommand(_ => ShowLogin());

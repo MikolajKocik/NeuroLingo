@@ -17,6 +17,7 @@ public class RegisterViewModel : ViewModelBase
     private bool _isLoading;
     private bool _hasMinLength;
     private bool _hasUppercase;
+    private bool _hasLowercase;
     private bool _hasDigit;
 
     private static readonly Regex PasswordRegex = new(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", RegexOptions.Compiled);
@@ -76,6 +77,12 @@ public class RegisterViewModel : ViewModelBase
         set => SetProperty(ref _hasUppercase, value);
     }
 
+    public bool HasLowercase
+    {
+        get => _hasLowercase;
+        set => SetProperty(ref _hasLowercase, value);
+    }
+
     public bool HasDigit
     {
         get => _hasDigit;
@@ -98,6 +105,7 @@ public class RegisterViewModel : ViewModelBase
     {
         HasMinLength = Password.Length >= 8;
         HasUppercase = Password.Any(char.IsUpper);
+        HasLowercase = Password.Any(char.IsLower);
         HasDigit = Password.Any(char.IsDigit);
     }
 

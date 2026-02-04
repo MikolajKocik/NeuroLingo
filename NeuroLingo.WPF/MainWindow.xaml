@@ -143,7 +143,7 @@
 
                 <!-- Copyright -->
                 <TextBlock Grid.Column="1"
-                           Text="© 2025 Neurolingo. Wszelkie prawa zastrzeżone."
+                           Text="© 2025 NeuroLingo. Wszelkie prawa zastrzeżone."
                            Foreground="{StaticResource TextMutedBrush}"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center" />

@@ -127,6 +127,13 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="• "
+                                       Foreground="{Binding HasLowercase, Converter={StaticResource BoolToColorConverter}}" />
+                            <TextBlock Text="Lowercase letter"
+                                       Style="{StaticResource PasswordRuleStyle}"
+                                       Foreground="{Binding HasLowercase, Converter={StaticResource BoolToColorConverter}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="• "
                                        Foreground="{Binding HasDigit, Converter={StaticResource BoolToColorConverter}}" />
                             <TextBlock Text="Number"
                                        Style="{StaticResource PasswordRuleStyle}"
