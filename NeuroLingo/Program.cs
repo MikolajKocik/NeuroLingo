@@ -1,41 +1,57 @@
-using NeuroLingo.Extensions.ConfigureServices;
-using NeuroLingo.Extensions.DatabaseConfig;
-using NeuroLingo.Extensions.IdentityConfig;
-using NeuroLingo.Extensions.SetupCustomViews;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using NeuroLingo.Persistence.Data;
+using NeuroLingo.Features.Auth.Models;
+using NeuroLingo.Features.Auth.Services;
+using NeuroLingo.Services.EmailNotifications;
+
+// Initialize SQLite
+SQLitePCL.Batteries.Init();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Custom Views
-ViewsOptions.AddCustomConfiguration(builder);
+// Add services to the container
+builder.Services.AddControllers();
 
-// Sqllite database context
-DbContextConfiguration.SetupDatabase(builder);
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
 
-// Identity service
-IdentityConfiguration.SetupIdentity(builder.Services);
+// Configure SQLite database context
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? "Data Source=neurolingo.db"));
 
-// Add services
-SetupService.Configure(builder);
+// Configure Identity
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+// Register application services
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllers();
 
 app.Run();
