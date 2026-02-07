@@ -1,38 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Persistence\Configurations\**" />
-    <Content Remove="Persistence\Configurations\**" />
-    <EmbeddedResource Remove="Persistence\Configurations\**" />
-    <None Remove="Persistence\Configurations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Flashcards\Controllers\" />
-    <Folder Include="Features\Flashcards\Dtos\" />
-    <Folder Include="Features\Flashcards\Validations\" />
-    <Folder Include="Features\Flashcards\Services\" />
-    <Folder Include="Features\Flashcards\Views\" />
-    <Folder Include="Features\Flashcards\ViewModels\" />
-    <Folder Include="Features\Quizzes\Dtos\" />
-    <Folder Include="Features\Quizzes\Controllers\" />
-    <Folder Include="Features\Quizzes\Validations\" />
-    <Folder Include="Features\Quizzes\Views\" />
-    <Folder Include="Features\Quizzes\ViewModels\" />
-    <Folder Include="Features\Quizzes\Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.18" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
 

@@ -427,4 +427,6 @@ FodyWeavers.xsd
 *.msi
 *.msix
 *.msm
-*.msp
+*.msp*.db
+*.db-shm
+*.db-wal

@@ -2,9 +2,6 @@
 using NeuroLingo.Exceptions;
 using NeuroLingo.Features.Auth.Dtos;
 using NeuroLingo.Features.Auth.Services;
-using NeuroLingo.Features.Auth.ViewModels;
-using NeuroLingo.Utils.JsonHelper;
-using NeuroLingo.Utils.ValidationAttribute;
 using System.ComponentModel.DataAnnotations;
 
 namespace NeuroLingo.Features.Auth.Controllers;
@@ -12,114 +9,128 @@ namespace NeuroLingo.Features.Auth.Controllers;
 /// <summary>
 /// Provides authentication-related actions, including user registration, login, and logout.
 /// </summary>
-/// <remarks>This controller handles user authentication workflows such as registering new users, logging
-/// in, and logging out.  It interacts with the <see cref="IAuthService"/> to perform the necessary operations and
-/// ensures proper validation  of user input through attributes like <see cref="ValidateDto"/> and <see
-/// cref="ValidateAntiForgeryTokenAttribute"/>.</remarks>
-[ValidateDto]
-public class AuthController : Controller
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    
     public AuthController(IAuthService authService)
     {
         _authService = authService;
     }
    
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterUserViewModel vm)
+    /// <summary>
+    /// Register a new user
+    /// </summary>
+    [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
     {
         try
         {
-            var dto = new RegisterUserDto
+            if (!ModelState.IsValid)
             {
-                Email = vm.Email,
-                Password = vm.Password,
-            };
+                return BadRequest(new
+                {
+                    isSuccess = false,
+                    errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList()
+                });
+            }
 
             await _authService.RegisterUserAsync(dto);
 
-            TempData["Success"] = "Registered successfull";
-            return Json(new JsonResponse(
-                IsSuccess: true,
-                Message: "Registration successful!"
-            ));
+            return Ok(new
+            {
+                isSuccess = true,
+                message = "Registration successful!"
+            });
         }
         catch (ConflictException)
         {
-            ModelState.AddModelError(nameof(vm.Email), "This email is already in used");
-            return Json(new JsonResponse
-            (
-                IsSuccess: false,
-                Errors: ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage)
-                .ToList()
-            ));
+            return Conflict(new
+            {
+                isSuccess = false,
+                errors = new[] { "This email is already in use" }
+            });
         }
         catch (ValidationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
-            return Json(new JsonResponse
-            (
-                IsSuccess: false,
-                Errors: ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage)
-                .ToList()
-            ));
+            return BadRequest(new
+            {
+                isSuccess = false,
+                errors = new[] { ex.Message }
+            });
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Logout()
-    {
-        await _authService.Logout();
-        return RedirectToAction("Index", "Home");
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Login(LoginUserViewModel vm)
+    /// <summary>
+    /// Log in an existing user
+    /// </summary>
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
     {
         try
         {
-            var dto = new LoginUserDto
+            if (!ModelState.IsValid)
             {
-                Email = vm.Email,
-                Password = vm.Password
-            };
+                return BadRequest(new
+                {
+                    isSuccess = false,
+                    errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList()
+                });
+            }
 
             await _authService.LoginUserAsync(dto);
 
-            TempData["Success"] = "Logged successfull";
-            return Json(new JsonResponse(
-               IsSuccess: true,
-               Message: "Login successful!"
-            ));
+            return Ok(new
+            {
+                isSuccess = true,
+                message = "Login successful!"
+            });
         }
         catch (UnauthorizedAccessException)
         {
-            ModelState.AddModelError(string.Empty, "Invalid email or password");
-            return Json(new JsonResponse
-            (
-                IsSuccess: false,
-                Errors: ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage)
-                .ToList()
-            ));
+            return Unauthorized(new
+            {
+                isSuccess = false,
+                errors = new[] { "Invalid email or password" }
+            });
         }
         catch (NotFoundException)
         {
-            ModelState.AddModelError(nameof(vm.Email), $"User with: {vm.Email} not found");
-            return Json(new JsonResponse
-            (
-                IsSuccess: false,
-                Errors: ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage)
-                .ToList()
-            ));
+            return NotFound(new
+            {
+                isSuccess = false,
+                errors = new[] { $"User with email {dto.Email} not found" }
+            });
         }
+    }
+
+    /// <summary>
+    /// Log out the current user
+    /// </summary>
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Logout()
+    {
+        await _authService.Logout();
+        return Ok(new
+        {
+            isSuccess = true,
+            message = "Logout successful!"
+        });
     }
 }
