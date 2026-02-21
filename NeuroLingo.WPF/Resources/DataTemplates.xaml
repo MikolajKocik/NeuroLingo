@@ -1,0 +1,207 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:NeuroLingo.WPF.ViewModels"
+                    xmlns:views="clr-namespace:NeuroLingo.WPF.Views"
+                    xmlns:converters="clr-namespace:NeuroLingo.WPF.Converters">
+
+    <!-- Converters -->
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:InverseBooleanConverter x:Key="InverseBoolConverter" />
+    <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+
+    <!-- LoginViewModel DataTemplate - Pure XAML, no code-behind -->
+    <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="400">
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Login" 
+                               Style="{StaticResource Heading2Style}"
+                               HorizontalAlignment="Center" />
+
+                    <!-- Email field -->
+                    <StackPanel Margin="0,10">
+                        <Label Content="Email" Style="{StaticResource FormLabelStyle}" />
+                        <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource FormTextBoxStyle}"
+                                 IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                    </StackPanel>
+
+                    <!-- Password field with attached behavior for binding -->
+                    <StackPanel Margin="0,10">
+                        <Label Content="Password" Style="{StaticResource FormLabelStyle}" />
+                        <PasswordBox Style="{StaticResource FormPasswordBoxStyle}"
+                                     views:PasswordBoxHelper.Attach="True"
+                                     views:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                    </StackPanel>
+
+                    <!-- Error message -->
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Style="{StaticResource ErrorMessageStyle}"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <!-- Login button -->
+                    <Button Content="Login"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding LoginCommand}"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+                            Margin="0,20,0,10"
+                            HorizontalAlignment="Stretch" />
+
+                    <!-- Loading indicator -->
+                    <TextBlock Text="Loading..."
+                               HorizontalAlignment="Center"
+                               Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+                               Foreground="{StaticResource TextMutedBrush}" />
+
+                    <!-- Navigation link -->
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center"
+                                Margin="0,15,0,0">
+                        <TextBlock Text="Don't have an account? " 
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource TextMutedBrush}" />
+                        <Button Content="Click here"
+                                Style="{StaticResource LinkButtonStyle}"
+                                Command="{Binding NavigateToRegisterCommand}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <!-- RegisterViewModel DataTemplate - Pure XAML, no code-behind -->
+    <DataTemplate DataType="{x:Type vm:RegisterViewModel}">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="400">
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Register" 
+                               Style="{StaticResource Heading2Style}"
+                               HorizontalAlignment="Center" />
+
+                    <!-- Email field -->
+                    <StackPanel Margin="0,10">
+                        <Label Content="Email" Style="{StaticResource FormLabelStyle}" />
+                        <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource FormTextBoxStyle}"
+                                 IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                    </StackPanel>
+
+                    <!-- Password field -->
+                    <StackPanel Margin="0,10">
+                        <Label Content="Password" Style="{StaticResource FormLabelStyle}" />
+                        <PasswordBox Style="{StaticResource FormPasswordBoxStyle}"
+                                     views:PasswordBoxHelper.Attach="True"
+                                     views:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                    </StackPanel>
+
+                    <!-- Confirm Password field -->
+                    <StackPanel Margin="0,10">
+                        <Label Content="Confirm Password" Style="{StaticResource FormLabelStyle}" />
+                        <PasswordBox Style="{StaticResource FormPasswordBoxStyle}"
+                                     views:PasswordBoxHelper.Attach="True"
+                                     views:PasswordBoxHelper.Password="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+                    </StackPanel>
+
+                    <!-- Password rules indicator -->
+                    <StackPanel Margin="0,5,0,10">
+                        <TextBlock Text="Password should contain:" 
+                                   FontWeight="SemiBold"
+                                   FontSize="12"
+                                   Margin="0,0,0,5" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="• "
+                                       Foreground="{Binding HasMinLength, Converter={StaticResource BoolToColorConverter}}" />
+                            <TextBlock Text="Min. 8 characters"
+                                       Style="{StaticResource PasswordRuleStyle}"
+                                       Foreground="{Binding HasMinLength, Converter={StaticResource BoolToColorConverter}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="• "
+                                       Foreground="{Binding HasUppercase, Converter={StaticResource BoolToColorConverter}}" />
+                            <TextBlock Text="Uppercase letter"
+                                       Style="{StaticResource PasswordRuleStyle}"
+                                       Foreground="{Binding HasUppercase, Converter={StaticResource BoolToColorConverter}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="• "
+                                       Foreground="{Binding HasLowercase, Converter={StaticResource BoolToColorConverter}}" />
+                            <TextBlock Text="Lowercase letter"
+                                       Style="{StaticResource PasswordRuleStyle}"
+                                       Foreground="{Binding HasLowercase, Converter={StaticResource BoolToColorConverter}}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="• "
+                                       Foreground="{Binding HasDigit, Converter={StaticResource BoolToColorConverter}}" />
+                            <TextBlock Text="Number"
+                                       Style="{StaticResource PasswordRuleStyle}"
+                                       Foreground="{Binding HasDigit, Converter={StaticResource BoolToColorConverter}}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Error message -->
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Style="{StaticResource ErrorMessageStyle}"
+                               TextWrapping="Wrap"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <!-- Register button -->
+                    <Button Content="Register"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding RegisterCommand}"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+                            Margin="0,15,0,10"
+                            HorizontalAlignment="Stretch" />
+
+                    <!-- Loading indicator -->
+                    <TextBlock Text="Loading..."
+                               HorizontalAlignment="Center"
+                               Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+                               Foreground="{StaticResource TextMutedBrush}" />
+
+                    <!-- Navigation link -->
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center"
+                                Margin="0,15,0,0">
+                        <TextBlock Text="Already have an account? " 
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource TextMutedBrush}" />
+                        <Button Content="Click here"
+                                Style="{StaticResource LinkButtonStyle}"
+                                Command="{Binding NavigateToLoginCommand}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <!-- HomeViewModel DataTemplate - Pure XAML, no code-behind -->
+    <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Style="{StaticResource Heading1Style}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap">
+                    <Run Text="Ucz się szybciej. " />
+                    <Run Text="Zapamiętuj więcej" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+                </TextBlock>
+
+                <TextBlock Text="{Binding Description}"
+                           FontSize="16"
+                           Foreground="{StaticResource TextMutedBrush}"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Margin="0,10,0,30"
+                           MaxWidth="500" />
+
+                <Button Content="Rozpocznij naukę"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        HorizontalAlignment="Center"
+                        Padding="30,15" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>
